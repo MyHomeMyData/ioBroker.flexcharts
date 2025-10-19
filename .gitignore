@@ -14,7 +14,6 @@ iobroker.*.tgz
 check_ctrl_infect.all
 
 Thumbs.db
-.commitinfo
 
 # i18n intermediate files
 admin/i18n/flat.txt
@@ -25,3 +24,6 @@ todo.md
 
 # integration test
 test/integration/.*
+
+# ignore .commitinfo created by ioBroker release script
+.commitinfo
