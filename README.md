@@ -275,7 +275,7 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.6.0 (2025-10-19)
 * (MyHomeMyData) Updated Apache ECharts to version 6.0.0 using brand new default theme - please take a look to Readme! Ref. issue #125
 * (MyHomeMyData) Added option to dynamically switch dark mode by listening to the system's setting. Based on Apache ECharts 6.
 * (MyHomeMyData) Added possibility to add self defined themes. Based on Apache ECharts 6.
