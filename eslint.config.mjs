@@ -18,6 +18,7 @@ export default [
             '.vscode/',
             '*.test.js',
             'test/',
+            'themes',
             'www/',
             '*.config.mjs',
             'build',
