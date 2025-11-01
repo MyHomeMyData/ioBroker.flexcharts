@@ -149,6 +149,7 @@ test_curl "Check for page 404" "http://$HOST:$PORT/flexcharts/echart.html" "char
 test_curl "Check for requesting unknown state" "http://$HOST:$PORT/flexcharts/echarts.html?source=state&id=flexcharts.0.info.unknown" "info.unknown" "$MODE"
 test_curl "Check for flexcharts.0.info.chart1" "http://$HOST:$PORT/flexcharts/echarts.html?source=state&id=flexcharts.0.info.chart1" "info.chart1.default" "$MODE"
 test_curl "Check for flexcharts.0.info.chart1 using 'v5' default theme" "http://$HOST:$PORT/flexcharts/echarts.html?source=state&id=flexcharts.0.info.chart1&themev5" "info.chart1.default.v5" "$MODE"
+test_curl "Check for flexcharts.0.info.chart1 using 'v5' dark theme" "http://$HOST:$PORT/flexcharts/echarts.html?source=state&id=flexcharts.0.info.chart1&darkmode&themev5" "info.chart1.dark.v5" "$MODE"
 test_curl "Check for flexcharts.0.info.chart2" "http://$HOST:$PORT/flexcharts/echarts.html?source=state&id=flexcharts.0.info.chart2" "info.chart2.default" "$MODE"
 test_curl "Check for flexcharts.0.info.chart2 dark mode off" "http://$HOST:$PORT/flexcharts/echarts.html?source=state&id=flexcharts.0.info.chart2&darkmode=off" "info.chart2.default" "$MODE"
 test_curl "Check for flexcharts.0.info.chart2 dark mode bad value" "http://$HOST:$PORT/flexcharts/echarts.html?source=state&id=flexcharts.0.info.chart2&darkmode=thisisbadvalue" "info.chart2.default" "$MODE"
