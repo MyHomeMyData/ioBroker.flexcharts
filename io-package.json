@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "flexcharts",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "news": {
+      "0.6.1": {
+        "en": "Added support for dark mode theme of ECharts version 5.6.0 (when using paramter themev5). Based on Apache ECharts 6.",
+        "de": "Unterstützung für Dark-Mode-Thema von ECharts Version 5.6.0 ergänzt (bei Verwendung von Paramter themev5). Basierend auf Apache ECharts 6.",
+        "ru": "Добавлена поддержка темной темы режима ECharts версии 5.6.0 (при использовании paramter themev5). По материалам Apache ECharts 6.",
+        "pt": "Adicionado suporte para o tema de modo escuro da versão 5.6.0 do ECharts (ao usar paramter themev5). Baseado em Apache ECharts 6.",
+        "nl": "Toegevoegd ondersteuning voor donkere modus thema van ECharts versie 5.6.0 (bij gebruik van paramter henev5). Gebaseerd op Apache ECharts 6.",
+        "fr": "Ajout du support pour le thème en mode sombre d'ECharts version 5.6.0 (en utilisant paramter themev5). Basé sur Apache ECharts 6.",
+        "it": "Aggiunto supporto per il tema di modalità scura di ECharts versione 5.6.0 (quando usando paramter themev5). Basato su Apache ECharts 6.",
+        "es": "Añadido soporte para el tema del modo oscuro de ECharts versión 5.6.0 (al usar paramter themev5). Basado en Apache ECharts 6.",
+        "pl": "Dodano obsługę motywu ciemnego trybu w wersji 5.6.0 ECharts (przy użyciu paramter themev5). Na podstawie Apache ECharts 6.",
+        "uk": "Додано підтримку темної теми ECharts версії 5.6.0 (при використанні параметра їхev5). На основі Apache ECharts 6.",
+        "zh-cn": "对ECharts版本5.6.0(使用paramter themev5)的暗模式主题添加支持. 依据Apache ECharts 6."
+      },
       "0.6.0": {
         "en": "Updated Apache ECharts to version 6.0.0 using brand new default theme - please take a look to Readme! Ref. issue #125\nAdded option to dynamically switch dark mode by listening to the system's setting. Based on Apache ECharts 6.\nAdded possibility to add self defined themes. Based on Apache ECharts 6.\nExtended support for definition of onEvent functions. Now an unlimited number of functions can be defined instead of just one.\nFixes for issue #132 (repository checker)",
         "de": "Neue Apache ECharts Version 6.0.0 mit brandneuem Standard-Thema - bitte schauen Sie sich das Readme an! Ref. Issue #125\nOption hinzugefügt, um den Dark Mode dynamisch zu wechseln, je nach Modus des Systems. Basierend auf Apache ECharts 6.\nZusätzliche Möglichkeit, selbst definierte Themen hinzuzufügen. Basierend auf Apache ECharts 6.\nErweiterte Unterstützung für die Definition von onEvent-Funktionen. Nun kann eine unbegrenzte Anzahl von Funktionen statt nur einer definiert werden.\nFixes für Issue #132 (Repository Checker)",
@@ -80,19 +93,6 @@
         "pl": "Aktualizacja Apache ECharts do wersji 5.6.0\nDodano obsługę map 3D przy użyciu rozszerzenia echarts-gl, patrz numer # 68\nDodano szablony dla adaptera TibberLink",
         "uk": "Оновлено Apache ECharts до версії 5.6.0\nДодано підтримку діаграм 3D за допомогою розширення echarts-gl, див. проблему #68\nДодано шаблони для tibberLink адаптер",
         "zh-cn": "更新Apache ECharts至5.6.0版本\n使用扩展 echartsts-gl 添加了对 3D 图表的支持, 请见问题 68\n为 tibberLink 适配器添加模板"
-      },
-      "0.3.0": {
-        "en": "Enhancement for usage of functions within echart definitions.\nFix for issue #56 (findings of repository checker)",
-        "de": "Erweiterung zur Nutzung von Funktionen innerhalb von echart Definitionen.\nFix für Issue #56 (Ergebnisse des Repository-Checkers)",
-        "ru": "Повышение эффективности использования функций в рамках определений экарта.\nИсправление для выпуска #56 (поиск репозиторий)",
-        "pt": "Melhoria para o uso de funções dentro de definições de echart.\nCorrigir para a edição #56 (definição do verificador de repositório)",
-        "nl": "Verbetering voor het gebruik van functies binnen echart definities.\nFix voor probleem #56 (bevindingen van repository checker)",
-        "fr": "Amélioration de l'utilisation des fonctions dans les définitions des cartes électroniques.\nCorrection pour le numéro 56 (recherches du vérificateur du dépôt)",
-        "it": "Miglioramento per l'uso di funzioni all'interno delle definizioni di echart.\nFissare per il numero #56 (finanze di repository checker)",
-        "es": "Mejora para el uso de funciones dentro de las definiciones de echart.\nFijación para el número #56 (definiciones de repositorio)",
-        "pl": "Zwiększenie wykorzystania funkcji w ramach definicji echarta.\nFix for issue # 56 (wyniki sprawdzania repozytorium)",
-        "uk": "Розширення для використання функцій в echart визначеннях.\nВиправлення для випуску #56 (підписи репозиторійного чекера)",
-        "zh-cn": "加强技术定义内功能的使用.\n修复第56期(查找仓库检查器)"
       }
     },
     "titleLang": {
