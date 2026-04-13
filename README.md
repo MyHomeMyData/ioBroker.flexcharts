@@ -250,6 +250,7 @@ callback([JSON.stringify(option), ['default', '{"title":{"left":"left"},"color":
 
 Further examples:
 - **tibberLink adapter:** see discussions [here](https://github.com/MyHomeMyData/ioBroker.flexcharts/discussions/67) and [here](https://github.com/MyHomeMyData/ioBroker.flexcharts/discussions/66) — tibberLink also uses flexcharts natively, see its [documentation](https://github.com/hombach/ioBroker.tibberlink?tab=readme-ov-file#2-using-the-flexcharts-or-fully-featured-echarts-adapter-with-json)
+* **sun2000 adapter:** native [integration of flexcharts](https://github.com/bolliy/ioBroker.sun2000/wiki/Statistk-(statistics)) is available
 - **Viessmann E3 series** (e.g. Vitocal 250 heat pump): [ioBroker.e3oncan discussion](https://github.com/MyHomeMyData/ioBroker.e3oncan/discussions/35)
 
 ## Reference
