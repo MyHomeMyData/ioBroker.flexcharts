@@ -14,6 +14,58 @@
 
 # 20.03.2025    MyHomeMyData
 
+function test_sse() {
+    # Test an SSE endpoint: curl with short timeout, exit code 28 (timeout) is expected and treated as success
+    # Assign parameters:
+    title="$1"      # Title of test case
+    addr="$2"       # Server address
+    fname="$3"      # File name. Content shall match result of curl
+    mode="$4"       # OpMode
+
+    if [ $mode = "SETUP" ]
+    then
+        # SETUP-Mode => Create expectation file (ignore timeout exit code)
+        echo -n "SETUP Mode. Create expectation file for '$title' ... "
+        curl -s -N -m 1 "$addr" > $EXPECT$fname 2>/dev/null
+        echo -e $FMT_GREEN"OK"$FMT_RST
+        echo "SETUP Mode. Create expectation file for $title ... OK" >> "$LOG"
+        CNT_OK=$(($CNT_OK + 1))
+        return "0"
+    fi
+
+    # TEST-Mode => Execute test case
+    if [ -e $EXPECT$fname ]
+    then
+        echo -n "$title ... "
+    else
+        echo -e "$title ... "$FMT_BOLD$FMT_RED"NOK. Expectation file missing. Test case NOT executed."$FMT_RST
+        CNT_NOK=$(($CNT_NOK + 1))
+        return "112"
+    fi
+
+    echo "" > .result
+    curl -s -N -m 1 "$addr" > .result 2>/dev/null
+    # Exit code 28 (timeout) is expected for SSE connections — ignore it
+
+    if [ "$(diff -q .result $EXPECT$fname)" ]
+    then
+        echo -n -e $FMT_BOLD$FMT_RED"NOK! Result does not match expectation."$FMT_RST
+        echo "$title ... NOK! Result does not match expectation:" >> "$LOG"
+        echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> "$LOG"
+        echo $(diff .result "$EXPECT$fname") >> "$LOG"
+        echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" >> "$LOG"
+        mv .result ".result.$fname"
+        echo -e " ==> Result file stored to $FMT_BOLD$FMT_RED.result.$fname$FMT_RST"
+        CNT_NOK=$(($CNT_NOK + 1))
+        return "111"
+    else
+        echo -e $FMT_GREEN"OK"$FMT_RST
+        echo "$title ... OK" >> "$LOG"
+        CNT_OK=$(($CNT_OK + 1))
+        return "0"
+    fi
+}
+
 function test_curl()  {
     # Get data from flexcharts via curl and evaluate result or create expectation file (mode SETUP)
     # Assign parameters:
@@ -170,6 +222,7 @@ test_curl "Check for callback using own theme definitions (template5) and dark m
 test_curl "Check for timeout on callback with wrong message" "http://$HOST:$PORT/flexcharts/echarts.html?source=script&message=message_for_timeout" "callback.timeout" "$MODE"
 test_curl "Check for changes in Apache echarts.min.js" "http://$HOST:$PORT/flexcharts/echarts.min.js" "echarts.min.js" "$MODE"
 test_curl "Check for changes in Apache echarts-gl.min.js" "http://$HOST:$PORT/flexcharts/echarts-gl.min.js" "echarts-gl.min.js" "$MODE"
+test_sse "Check SSE endpoint for state source" "http://$HOST:$PORT/flexcharts/events?source=state&id=flexcharts.0.info.chart1" "sse.state.chart1" "$MODE"
 
 # Check for number of failed tests and finalize
 if [ "$CNT_NOK" != "0" ]
