@@ -224,6 +224,10 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (MyHomeMyData) Restructuring of code for better readability and improved performance.
+* (MyHomeMyData) Restructuring of Readme for better readability.
+
 ### 0.6.1 (2025-11-01)
 * (MyHomeMyData) Added support for dark mode theme of ECharts version 5.6.0 (when using paramter themev5). Based on Apache ECharts 6.
 
