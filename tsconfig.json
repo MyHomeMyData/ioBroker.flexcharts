@@ -24,6 +24,7 @@
 		// "noUnusedLocals": true,
 		// "noUnusedParameters": true,
 		"useUnknownInCatchVariables": false,
+		"types": ["node"]
 
 	},
 	"include": [
