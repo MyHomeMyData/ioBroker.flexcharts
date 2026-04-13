@@ -20,6 +20,18 @@ Take a look at the [ECharts demo gallery](https://echarts.apache.org/examples/en
 
 Remark: Adapter was not tested on MacOS, yet.
 
+## What's new in v0.7.0
+
+**Event-triggered chart refresh via SSE** — charts now update automatically when their source data changes, without any polling:
+
+- Add `&sse` to a chart URL to activate [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
+- With `source=state`: the chart reloads whenever the state specified by `&id=` changes
+- With `source=script`: add `&triggerid=<state_id>` to specify which state triggers the reload
+
+Example: `http://localhost:8082/flexcharts/echarts.html?source=state&id=0_userdata.0.echarts.chart1&sse`
+
+See [Event-triggered chart refresh (SSE)](#event-triggered-chart-refresh-sse) for full details.
+
 ## What's new in v0.6.0
 
 **Apache ECharts v6.0.0** is now the basis of flexcharts. Key additions:
@@ -160,6 +172,30 @@ With a **state as source**, the state must be a JSON array of strings. Both the 
 
 > **Security note:** Same as above — do not expose ioBroker to the Internet when using `javascript-stringify`.
 
+### Event-triggered chart refresh (SSE)
+
+Add `&sse` to any chart URL to enable automatic chart refresh via [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). The browser keeps a persistent connection to the server and reloads the chart page whenever the source data changes — no polling interval needed.
+
+**With `source=state`:**
+
+The chart refreshes automatically whenever the state specified by `&id=` changes.
+
+```
+http://localhost:8082/flexcharts/echarts.html?source=state&id=0_userdata.0.echarts.chart1&sse
+```
+
+**With `source=script`:**
+
+The script controls the chart content, so flexcharts cannot know which state triggers a refresh. Specify it explicitly with `&triggerid=<state_id>`:
+
+```
+http://localhost:8082/flexcharts/echarts.html?source=script&message=mycharts&triggerid=0_userdata.0.echarts.trigger&sse
+```
+
+The chart refreshes whenever `0_userdata.0.echarts.trigger` changes. Your ioBroker script can update that state to push chart updates to the browser.
+
+> **Note:** `&sse` and `&refresh` can be combined — SSE triggers an immediate reload on state change, `&refresh` provides a fallback periodic reload.
+
 ### Themes (ECharts v6)
 
 Use the Apache ECharts [Theme Builder](https://echarts.apache.org/en/theme-builder.html) to create or modify themes.
@@ -211,6 +247,8 @@ Base URL: `http://localhost:8082/flexcharts/echarts.html`
 | `message=<name>` | default: `flexcharts` | Message name for `onMessage()` in the script. |
 | `darkmode` | `on` \| `off` \| `auto` | Dark mode: `on`/no value = always dark, `off` = always light, `auto` = follow system setting. |
 | `refresh=<n>` | seconds, min. 5, default 60 | Auto-reload interval. Only active when parameter is present. |
+| `sse` | | Activate event-triggered auto-reload via Server-Sent Events. Chart reloads when the source state (`source=state`) or trigger state (`source=script`) changes. |
+| `triggerid=<state_id>` | | State ID to watch for changes when using `source=script` with `&sse`. |
 | `themev5` | | Use Apache ECharts v5 default and dark themes instead of v6 defaults. |
 | `<custom>=<value>` | | Any additional parameters are forwarded to the script in `httpParams`. |
 
