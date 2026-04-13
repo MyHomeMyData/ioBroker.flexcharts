@@ -194,7 +194,24 @@ http://localhost:8082/flexcharts/echarts.html?source=script&message=mycharts&tri
 
 The chart refreshes whenever `0_userdata.0.echarts.trigger` changes. Your ioBroker script can update that state to push chart updates to the browser.
 
-> **Note:** `&sse` and `&refresh` can be combined — SSE triggers an immediate reload on state change, `&refresh` provides a fallback periodic reload.
+**Throttle and ack filter:**
+
+By default (`&sse` without value) the chart reloads at most once every 5 seconds (minimum). Pass a number to set a longer minimum interval:
+
+```
+...&sse=30    → reload at most once every 30 seconds
+```
+
+For fine-grained control use a JSON object (URL-encoded):
+
+```
+...&sse={"refresh":10,"ack":true}   → reload only on acknowledged state changes, at most every 10 s
+...&sse={"ack":false}               → reload only on unacknowledged changes (set by script), default interval
+```
+
+State changes during the throttle interval are not lost — the reload is deferred to the next allowed moment.
+
+> **Note:** `&sse` and `&refresh` can be combined — SSE triggers a reload on state change, `&refresh` provides a fallback periodic reload.
 
 ### Themes (ECharts v6)
 
@@ -247,7 +264,7 @@ Base URL: `http://localhost:8082/flexcharts/echarts.html`
 | `message=<name>` | default: `flexcharts` | Message name for `onMessage()` in the script. |
 | `darkmode` | `on` \| `off` \| `auto` | Dark mode: `on`/no value = always dark, `off` = always light, `auto` = follow system setting. |
 | `refresh=<n>` | seconds, min. 5, default 60 | Auto-reload interval. Only active when parameter is present. |
-| `sse` | | Activate event-triggered auto-reload via Server-Sent Events. Chart reloads when the source state (`source=state`) or trigger state (`source=script`) changes. |
+| `sse` | no value \| `<n>` \| `<json>` | Activate event-triggered auto-reload via Server-Sent Events. No value or `&sse=5`: reload at most every 5 s (minimum). `&sse=<n>`: minimum seconds between reloads. `&sse={"refresh":<n>,"ack":true\|false}`: additionally filter by acknowledgement state. |
 | `triggerid=<state_id>` | | State ID to watch for changes when using `source=script` with `&sse`. |
 | `themev5` | | Use Apache ECharts v5 default and dark themes instead of v6 defaults. |
 | `<custom>=<value>` | | Any additional parameters are forwarded to the script in `httpParams`. |
