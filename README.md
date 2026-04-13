@@ -224,7 +224,7 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.6.2 (2026-04-13)
 * (MyHomeMyData) Restructuring of code for better readability and improved performance.
 * (MyHomeMyData) Restructuring of Readme for better readability.
 
