@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"></html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,6 +54,16 @@
       /* userFunctions() */
 
       updateDarkMode();
+
+      // SSE: auto-reload chart when source data changes (activated by &sse URL parameter)
+      (function() {
+        const sseParams = new URLSearchParams(window.location.search);
+        if (sseParams.has('sse')) {
+          const sseUrl = window.location.pathname.replace('echarts.html', 'events') + window.location.search;
+          const evtSource = new EventSource(sseUrl);
+          evtSource.onmessage = () => location.reload();
+        }
+      })();
 
     </script>
   </body>
