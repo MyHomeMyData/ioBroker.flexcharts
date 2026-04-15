@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "flexcharts",
-    "version": "0.6.2",
+    "version": "0.7.0",
     "news": {
+      "0.7.0": {
+        "en": "Implemented SSE (Server-Sent Events) to support event driven updating of chart",
+        "de": "Funktionalität SSE (Server-Sent Events) für ereignisgesteuerte Aktualisierung des Charts implementiert",
+        "ru": "Внедренный SSE (Server-Sent Events) для поддержки обновления графика, ориентированного на события",
+        "pt": "SSE Implementado (Eventos do Servidor-Enviado) para apoiar a atualização do gráfico por eventos",
+        "nl": "Geïmplementeerde SSE (Server-verzonden evenementen) ter ondersteuning van gebeurtenisgestuurde update van grafiek",
+        "fr": "Mise en œuvre du SSE (serveur-envoyé) pour appuyer la mise à jour du graphique par événement",
+        "it": "Implementato SSE (Server-Sent Events) per supportare l'aggiornamento dell'evento guidato dal grafico",
+        "es": "SSE implementado (Server-Sent Events) para apoyar la actualización impulsada por eventos de la gráfica",
+        "pl": "Wdrożenie SSE (Server- Sent Events) w celu wsparcia aktualizacji wykresu spowodowanej zdarzeniami",
+        "uk": "Реалізовано SSE (Послуги Serer-Sent) для підтримки оновлення події",
+        "zh-cn": "执行SSE(服务生活动),支持由事件驱动的图表更新"
+      },
       "0.6.2": {
         "en": "Restructuring of code for better readability and improved performance.\nRestructuring of Readme for better readability.",
         "de": "Umstrukturierung der Codebasis für eine bessere Lesbarkeit und verbesserte Leistung.\nUmstrukturierung des Readme für eine bessere Lesbarkeit.",
@@ -80,19 +93,6 @@
         "pl": "Dodano funkcjonalność do obsługi funkcji napędzanych zdarzeniami w wykresach, ref. wydanie # 85\nDodano timeout dla skryptu jako źródła\nDodano przypadki testów do badań integracyjnych",
         "uk": "Додано функціонал для підтримки керованих функцій події в діаграмах, реф. problem #85\nДодано час для скрипта як джерело\nДодано тестові випадки для тестування інтеграції",
         "zh-cn": "在图表中添加支持事件驱动函数的功能,参见第85期\n作为源代码添加到脚本的超时\n加入综合测试的测试案例"
-      },
-      "0.3.2": {
-        "en": "Added hint for use of flexcharts by adapter tibberLink",
-        "de": "Hinweis ergänzt über die Verwendung von Flexcharts durch Adapter tibberLink",
-        "ru": "Добавлен намек на использование flexcharts с помощью адаптера tibberСсылка",
-        "pt": "Adicionado dica para uso de flexcharts por adaptador tibberLink",
-        "nl": "Toegevoegd hint voor gebruik van flexcharts door adapter tibberLink",
-        "fr": "Ajout d'un indice pour l'utilisation de flexcharts par adaptateur tibberLink",
-        "it": "Aggiunto suggerimento per uso di flexcharts da adattatore tibberLink",
-        "es": "Insinuación agregada para el uso de flexcharts por tibberLink adaptador",
-        "pl": "Dodano podpowiedź do użycia fleksmap przez tibberLink adapter",
-        "uk": "Додана підказка для використання флексарів адаптером tibberLink",
-        "zh-cn": "通过适配器 tibberLink 添加了用于使用弹性图的提示 链接"
       }
     },
     "titleLang": {
