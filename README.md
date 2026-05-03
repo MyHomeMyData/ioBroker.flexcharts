@@ -20,6 +20,14 @@ Take a look at the [ECharts demo gallery](https://echarts.apache.org/examples/en
 
 Remark: Adapter was not tested on MacOS, yet.
 
+## What's new in v0.7.1
+
+**SSE chart updates without page reload** — when using `&sse`, the chart now updates in place instead of reloading the full page:
+
+- ECharts animations run smoothly on every data update
+- No flickering or chart rebuild on refresh
+- Works transparently for all existing `&sse` URLs — no changes needed
+
 ## What's new in v0.7.0
 
 **Event-triggered chart refresh via SSE** — charts now update automatically when their source data changes, without any polling:
