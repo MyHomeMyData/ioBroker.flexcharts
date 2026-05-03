@@ -55,13 +55,24 @@
 
       updateDarkMode();
 
-      // SSE: auto-reload chart when source data changes (activated by &sse URL parameter)
+      // SSE: auto-update chart when source data changes (activated by &sse URL parameter)
       (function() {
         const sseParams = new URLSearchParams(window.location.search);
         if (sseParams.has('sse')) {
           const sseUrl = window.location.pathname.replace('echarts.html', 'events') + window.location.search;
+          const dataUrl = window.location.pathname.replace('echarts.html', 'data') + window.location.search;
           const evtSource = new EventSource(sseUrl);
-          evtSource.onmessage = () => location.reload();
+          evtSource.onmessage = () => {
+            fetch(dataUrl)
+              .then(r => r.text())
+              .then(text => {
+                try {
+                  myChart.setOption(new Function('return ' + text)());
+                } catch(e) {
+                  console.error('flexcharts: failed to update chart option', e);
+                }
+              });
+          };
         }
       })();
 
