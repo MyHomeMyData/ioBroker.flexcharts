@@ -366,6 +366,8 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 ### 0.0.2 (2024-08-05)
 * (MyHomeMyData) initial release
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 MIT License
 
