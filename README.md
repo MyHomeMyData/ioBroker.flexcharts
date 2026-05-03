@@ -25,8 +25,8 @@ Remark: Adapter was not tested on MacOS, yet.
 **Event-triggered chart refresh via SSE** — charts now update automatically when their source data changes, without any polling:
 
 - Add `&sse` to a chart URL to activate [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
-- With `source=state`: the chart reloads whenever the state specified by `&id=` changes
-- With `source=script`: add `&triggerid=<state_id>` to specify which state triggers the reload
+- With `source=state`: the chart updates whenever the state specified by `&id=` changes
+- With `source=script`: add `&triggerid=<state_id>` to specify which state triggers the update
 
 Example: `http://localhost:8082/flexcharts/echarts.html?source=state&id=0_userdata.0.echarts.chart1&sse`
 
@@ -174,11 +174,11 @@ With a **state as source**, the state must be a JSON array of strings. Both the 
 
 ### Event-triggered chart refresh (SSE)
 
-Add `&sse` to any chart URL to enable automatic chart refresh via [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). The browser keeps a persistent connection to the server and reloads the chart page whenever the source data changes — no polling interval needed.
+Add `&sse` to any chart URL to enable automatic chart updates via [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). The browser keeps a persistent connection to the server and updates the chart in place whenever the source data changes — no page reload, no polling interval needed. ECharts animations run smoothly on every update.
 
 **With `source=state`:**
 
-The chart refreshes automatically whenever the state specified by `&id=` changes.
+The chart updates automatically whenever the state specified by `&id=` changes.
 
 ```
 http://localhost:8082/flexcharts/echarts.html?source=state&id=0_userdata.0.echarts.chart1&sse
@@ -192,26 +192,26 @@ The script controls the chart content, so flexcharts cannot know which state tri
 http://localhost:8082/flexcharts/echarts.html?source=script&message=mycharts&triggerid=0_userdata.0.echarts.trigger&sse
 ```
 
-The chart refreshes whenever `0_userdata.0.echarts.trigger` changes. Your ioBroker script can update that state to push chart updates to the browser.
+The chart updates whenever `0_userdata.0.echarts.trigger` changes. Your ioBroker script can update that state to push chart updates to the browser.
 
 **Throttle and ack filter:**
 
-By default (`&sse` without value) the chart reloads at most once every 5 seconds (minimum). Pass a number to set a longer minimum interval:
+By default (`&sse` without value) the chart updates at most once every 5 seconds (minimum). Pass a number to set a longer minimum interval:
 
 ```
-...&sse=30    → reload at most once every 30 seconds
+...&sse=30    → update at most once every 30 seconds
 ```
 
 For fine-grained control use a JSON object (URL-encoded):
 
 ```
-...&sse={"refresh":10,"ack":true}   → reload only on acknowledged state changes, at most every 10 s
-...&sse={"ack":false}               → reload only on unacknowledged changes (set by script), default interval
+...&sse={"refresh":10,"ack":true}   → update only on acknowledged state changes, at most every 10 s
+...&sse={"ack":false}               → update only on unacknowledged changes (set by script), default interval
 ```
 
-State changes during the throttle interval are not lost — the reload is deferred to the next allowed moment.
+State changes during the throttle interval are not lost — the update is deferred to the next allowed moment.
 
-> **Note:** `&sse` and `&refresh` can be combined — SSE triggers a reload on state change, `&refresh` provides a fallback periodic reload.
+> **Note:** `&sse` and `&refresh` can be combined — SSE triggers an in-place update on state change, `&refresh` provides a fallback periodic page reload.
 
 ### Themes (ECharts v6)
 
@@ -265,7 +265,7 @@ Base URL: `http://localhost:8082/flexcharts/echarts.html`
 | `message=<name>` | default: `flexcharts` | Message name for `onMessage()` in the script. |
 | `darkmode` | `on` \| `off` \| `auto` | Dark mode: `on`/no value = always dark, `off` = always light, `auto` = follow system setting. |
 | `refresh=<n>` | seconds, min. 5, default 60 | Auto-reload interval. Only active when parameter is present. |
-| `sse` | no value \| `<n>` \| `<json>` | Activate event-triggered auto-reload via Server-Sent Events. No value or `&sse=5`: reload at most every 5 s (minimum). `&sse=<n>`: minimum seconds between reloads. `&sse={"refresh":<n>,"ack":true\|false}`: additionally filter by acknowledgement state. |
+| `sse` | no value \| `<n>` \| `<json>` | Activate event-triggered chart updates via Server-Sent Events. No value or `&sse=5`: update at most every 5 s (minimum). `&sse=<n>`: minimum seconds between updates. `&sse={"refresh":<n>,"ack":true\|false}`: additionally filter by acknowledgement state. |
 | `triggerid=<state_id>` | | State ID to watch for changes when using `source=script` with `&sse`. |
 | `themev5` | | Use Apache ECharts v5 default and dark themes instead of v6 defaults. |
 | `<custom>=<value>` | | Any additional parameters are forwarded to the script in `httpParams`. |
@@ -282,6 +282,7 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 -->
 ### **WORK IN PROGRESS**
 - (copilot) Adapter requires node.js >= 22 now
+* (MyHomeMyData) SSE now updates chart in place via setOption instead of reloading the page — ECharts animations work correctly on data updates
 
 ### 0.7.0 (2026-04-15)
 * (MyHomeMyData) Implemented SSE (Server-Sent Events) to support event driven updating of chart
