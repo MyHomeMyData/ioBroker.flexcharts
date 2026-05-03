@@ -64,14 +64,18 @@
           const evtSource = new EventSource(sseUrl);
           evtSource.onmessage = () => {
             fetch(dataUrl)
-              .then(r => r.text())
+              .then(r => {
+                if (!r.ok) throw new Error('flexcharts: /data returned ' + r.status);
+                return r.text();
+              })
               .then(text => {
                 try {
                   myChart.setOption(new Function('return ' + text)());
                 } catch(e) {
                   console.error('flexcharts: failed to update chart option', e);
                 }
-              });
+              })
+              .catch(e => console.error(e));
           };
         }
       })();

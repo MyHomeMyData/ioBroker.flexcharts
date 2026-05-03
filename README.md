@@ -289,7 +289,7 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- (copilot) Adapter requires node.js >= 22 now
+* (MyHomeMyData) Adapter requires node.js >= 22 now
 * (MyHomeMyData) SSE now updates chart in place via setOption instead of reloading the page — ECharts animations work correctly on data updates
 
 ### 0.7.0 (2026-04-15)
