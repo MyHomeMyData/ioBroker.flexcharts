@@ -280,6 +280,9 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
+
 ### 0.7.0 (2026-04-15)
 * (MyHomeMyData) Implemented SSE (Server-Sent Events) to support event driven updating of chart
 
