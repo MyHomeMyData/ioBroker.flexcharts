@@ -256,6 +256,7 @@ callback([JSON.stringify(option), ['default', '{"title":{"left":"left"},"color":
 | [template4](templates/flexchartsTemplate4.js) | Event-driven dynamic chart |
 | [template5](templates/flexchartsTemplate5.js) | Custom themes with dynamic dark mode switching |
 | [template6](templates/flexchartsTemplate6.js) | **Beginner-friendly:** Energy overview — stacked bar chart with data from history adapter |
+| [template7](templates/flexchartsTemplate7.js) | **Beginner-friendly:** Gauge chart showing current state values (fill levels, meter readings) |
 
 Further examples:
 - **tibberLink adapter:** see discussions [here](https://github.com/MyHomeMyData/ioBroker.flexcharts/discussions/67) and [here](https://github.com/MyHomeMyData/ioBroker.flexcharts/discussions/66) — tibberLink also uses flexcharts natively, see its [documentation](https://github.com/hombach/ioBroker.tibberlink?tab=readme-ov-file#2-using-the-flexcharts-or-fully-featured-echarts-adapter-with-json)
