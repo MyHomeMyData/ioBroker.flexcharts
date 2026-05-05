@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "flexcharts",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "news": {
+      "0.7.1": {
+        "en": "Adapter requires node.js >= 22 now\nSSE now updates chart in place via setOption instead of reloading the page — ECharts animations work correctly on data updates",
+        "de": "Adapter benötigt node.js >= 22\nSSE aktualisiert nun das Diagramm über setOption anstelle des Neuladens der Seite — ECharts Animationen funktionieren korrekt bei Datenaktualisierungen",
+        "ru": "Адаптер требует node.js >= 22 сейчас\nSSE теперь обновляет график с помощью setOption вместо перезагрузки страницы — анимация ECharts работает правильно при обновлении данных",
+        "pt": "Adaptador requer nod.js >= 22 agora\nO SSE agora atualiza o gráfico no lugar através do setOption em vez de recarregar a página — as animações do ECharts funcionam corretamente em atualizações de dados",
+        "nl": "Voor de adapter zijn node.js < 22 nu nodig\nSSE updates nu grafiek in plaats van opnieuw laden van de pagina ",
+        "fr": "Adaptateur nécessite node.js >= 22 maintenant\nSSE met maintenant à jour le graphique en place via setOption au lieu de recharger la page — les animations ECharts fonctionnent correctement sur les mises à jour de données",
+        "it": "Adattatore richiede node.js >= 22 ora\nSSE ora aggiorna il grafico in posizione tramite setOption invece di ricaricare la pagina — Le animazioni ECharts funzionano correttamente sugli aggiornamenti dei dati",
+        "es": "Adaptador requiere node.js ю= 22 ahora\nSSE ahora actualiza el gráfico en su lugar mediante setOption en lugar de recargar la página — ECharts animaciones funcionan correctamente en actualizaciones de datos",
+        "pl": "Adapter wymaga node.js > = 22\nSSE teraz aktualizuje wykres w miejscu przez setOpcja zamiast przeładowania strony - ECharts animacje działają poprawnie na aktualizacjach danych",
+        "uk": "Адаптер вимагає node.js >= 22 тепер\nSSE тепер оновлення діаграми на місці через setOption замість перевантаження сторінки — анімації ECharts працюють правильно на оновлення даних",
+        "zh-cn": "适配器需要节点.js 现在22\nSSE 现在通过设置更新已设置的图表 选项而非重新加载页面 —— ECharts动画在数据更新上的工作正确"
+      },
       "0.7.0": {
         "en": "Implemented SSE (Server-Sent Events) to support event driven updating of chart",
         "de": "Funktionalität SSE (Server-Sent Events) für ereignisgesteuerte Aktualisierung des Charts implementiert",
