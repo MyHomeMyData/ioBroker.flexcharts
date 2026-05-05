@@ -62,55 +62,77 @@ const yAxisUnit  = 'kWh';
 // No changes needed below this line
 // ============================================================
 
+// flexcharts calls this function whenever the browser requests the chart.
+// httpParams contains the URL parameters, e.g. &days=30 becomes httpParams.days = '30'.
 onMessage('energychart', (httpParams, callback) => {
     const days   = Math.max(1, parseInt(httpParams.days) || 30);
     const tStop  = new Date();
     const tStart = new Date(tStop.getFullYear(), tStop.getMonth(), tStop.getDate() - days);
 
-    const seriesData = {};
-    let loaded = 0;
+    // We need to load history data for every series defined in mySeries above.
+    // Since getHistory() works asynchronously (it returns immediately and calls
+    // the callback later when the data is ready), we cannot simply wait in a loop.
+    // Instead we count how many series have finished loading, and only build the
+    // chart once ALL of them are done.
+    const seriesData = {};  // Stores the loaded data, keyed by stateId
+    let loaded = 0;         // Counts how many series have finished loading
 
     for (const s of mySeries) {
+        // Request historical data from the history adapter for one series.
+        // The result is an array of data points, each with a timestamp (ts) and a value (val).
         getHistory(historyInstance, {
             id:        s.stateId,
-            start:     tStart.getTime(),
-            end:       tStop.getTime(),
+            start:     tStart.getTime(),    // Start of time range (milliseconds)
+            end:       tStop.getTime(),     // End of time range (milliseconds)
             ack:       true,
             count:     100000,
-            aggregate: 'none'
+            aggregate: 'none'              // Return raw values, no aggregation
         }, (err, result) => {
             if (err) {
                 console.warn(`energychart: could not read history for ${s.stateId}: ${JSON.stringify(err)}`);
                 seriesData[s.stateId] = [];
             } else {
+                // Convert each data point from {ts, val} to [date, value] as required by ECharts.
+                // startOfDay() normalizes the timestamp to midnight so that bars are aligned by day.
                 seriesData[s.stateId] = result.map(p => [startOfDay(new Date(p.ts)), p.val]);
             }
             loaded++;
             if (loaded === mySeries.length) {
+                // All series loaded — now build and return the chart definition.
                 buildChart(seriesData, callback);
             }
         });
     }
 });
 
+// Assembles the ECharts option object and passes it back to flexcharts via callback().
+// flexcharts forwards this object to Apache ECharts in the browser, which renders the chart.
+// For a full reference of all available ECharts options see:
+//   https://echarts.apache.org/en/option.html
 function buildChart(seriesData, callback) {
     const option = {
         title:   { text: chartTitle, left: 'center' },
-        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-        legend:  { top: '8%' },
-        toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, saveAsImage: {} } },
-        xAxis:   { type: 'time' },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },  // Tooltip on hover
+        legend:  { top: '8%' },                                          // Legend below title
+        toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, saveAsImage: {} } },  // Zoom and save buttons
+        xAxis:   { type: 'time' },                                       // Time axis (dates)
         yAxis:   { type: 'value', name: yAxisUnit, axisLabel: { formatter: `{value} ${yAxisUnit}` } },
-        dataZoom: [{ type: 'inside' }, { type: 'slider' }],
+        dataZoom: [{ type: 'inside' }, { type: 'slider' }],             // Scrollable zoom
+
+        // Build the series array from mySeries.
+        // For each entry in mySeries, this creates one bar series for ECharts.
+        // The historical data loaded above is assigned via seriesData[s.stateId].
+        // Series sharing the same 'stack' value are stacked on top of each other.
         series: mySeries.map(s => ({
             name:  s.name,
             type:  'bar',
             color: s.color,
             stack: s.stack || '',
-            data:  seriesData[s.stateId] || []
+            data:  seriesData[s.stateId] || []  // Use empty array if loading failed
         }))
     };
     callback(option);
 }
 
+// Returns midnight of the given date — used to align all data points to the start of their day.
 function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
