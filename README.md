@@ -251,7 +251,7 @@ callback([JSON.stringify(option), ['default', '{"title":{"left":"left"},"color":
 | Template | Description |
 |----------|-------------|
 | [template1](templates/flexchartsTemplate1.js) | Chart with data from the history adapter |
-| [template2](templates/flexchartsTemplate2.js) | Simple heat curve chart |
+| [template2](templates/flexchartsTemplate2.js) | Simple line chart with data from the history adapter — reactive SSE updates |
 | [template3](templates/flexchartsTemplate3.js) | Stacked bar chart with function in chart definition |
 | [template4](templates/flexchartsTemplate4.js) | Event-driven dynamic chart |
 | [template5](templates/flexchartsTemplate5.js) | Custom themes with dynamic dark mode switching |

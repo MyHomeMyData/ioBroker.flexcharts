@@ -15,6 +15,14 @@
    Open in browser (replace localhost and 8082 with your ioBroker address and port):
      http://localhost:8082/flexcharts/echarts.html?source=script&message=mylinechart
 
+   Auto-update with SSE when the tracked state changes:
+     http://localhost:8082/flexcharts/echarts.html?source=script&message=mylinechart&sse&triggerid=0_userdata.0.flexcharts.mylinechartdata
+
+   With &sse&triggerid=<stateId>, the chart reloads its data automatically whenever the
+   specified state changes — no page reload, ECharts animations work smoothly.
+   Use the same stateId as in mySeries below. For multiple tracked states, use any one of them
+   or a dedicated trigger state that you update whenever new data is available.
+
    Uses Apache ECharts: https://echarts.apache.org/en/index.html
 */
 
