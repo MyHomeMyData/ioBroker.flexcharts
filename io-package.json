@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "flexcharts",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "news": {
+      "0.7.2": {
+        "en": "Added beginner-friendly templates #6 (energy stacked bar chart with history adapter) and #7 (reactive gauge chart with SSE auto-update)\nImproved comments and STEP markers in templates 1–5\nAdded Wiki with Cookbook articles A1–A3 (step-by-step guides for building live charts)",
+        "de": "Anfängerfreundliche Vorlagen ergänzt #6 (gestapeltes Balkendiagramm mit History-Adapter) und #7 (reaktives Messwertanzeige mit SSE-Auto-Update)\nVerbesserte Kommentare und STEP-Marker in Vorlagen 1–5\nWiki mit Cookbook-Artikeln A1–A3 hinzugefügt (Schritt-für-Schritt-Anleitung für den Aufbau von Live-Charts)",
+        "ru": "Добавлены удобные для начинающих шаблоны 6 (энергетический стекированный барный график с адаптером истории) и 7 (реактивный калибровочный график с автоматическим обновлением SSE)\nУлучшенные комментарии и маркеры STEP в шаблонах 1-5\nДобавлена Wiki со статьями кулинарной книги A1-A3 (пошаговые руководства по созданию живых диаграмм)",
+        "pt": "Modelos para iniciantes 6 (energy stacked bar chart with history adaptator) e 7 (reactive gauge chart with SSE auto-update)\nComentários melhorados e marcadores STEP nos modelos 1–5\nAdicionado Wiki com artigos do Cookbook A1–A3 (guias passo a passo para a construção de gráficos ao vivo)",
+        "nl": "Toegevoegd beginner-vriendelijke templates 6 (energie gestapelde bar grafiek met geschiedenis adapter) en 7 (reactieve meter grafiek met SSE auto-update)\nVerbeterde opmerkingen en STEP-markeringen in templates 1 en 5\nToegevoegd Wiki met Cookbook artikelen A1",
+        "fr": "Ajout de modèles pour débutants 6 (carte à barres empilées d'énergie avec adaptateur d'historique) et 7 (carte à jauge réactive avec mise à jour automatique SSE)\nAmélioration des commentaires et des marqueurs STEP dans les modèles 1 à 5\nAjout de Wiki avec les articles de Cookbook A1–A3 (guides étape par étape pour construire des graphiques en direct)",
+        "it": "6 (cartella a barre accatastata con adattatore di storia) e 7 (cartella di manometro reattiva con autoupdate SSE)\nOsservazioni migliorate e marcatori STEP nei modelli 1–5\nAggiunto Wiki con Cookbook articoli A1–A3 (guida passo per passo per la costruzione di grafici dal vivo)",
+        "es": "Plantillas adicionales para principiantes 6 (cama de barras apiladas de energía con adaptador de historia) y 7 (cama de medidor reactiva con SSE de actualización automática)\nMejores comentarios y marcadores de STEP en plantillas 1–5\nAñadido Wiki con los artículos de Cookbook A1–A3 (guías paso a paso para construir gráficos en vivo)",
+        "pl": "Dodano szablony przyjazne dla początkujących 6 (wykres układany energetycznie z adapterem historii) i 7 (wykres wskaźnika reaktywnego z autoaktualizacją SSE)\nUlepszone komentarze i markery STEP w szablonach 1-5\nDodano Wiki z artykułami Książki kucharskiej A1- A3 (Step- by- step guide for building live charts)",
+        "uk": "Додані шаблони для початківців 6 (масштабні діаграми з історичним адаптером) та 7 (реактивна діаграма датчика з автоматичною підтримкою SSE)\nПокращує коментарі та маркування STEP у шаблонах 1–5\nДодано Вікі з Cookbook статей A1–A3 (покрокові інструкції по створенню живих графіків)",
+        "zh-cn": "添加了初学者友好模板 6( 能量堆叠的带历史适配器的条形图) 和 7( 带 SSE 自动更新的响应表)\n改进模板1-5中的评论和STEP标记\n与 Cookbook 文章 A1–A3( 构建活图的一步步指南) 一起添加的 Wiki"
+      },
       "0.7.1": {
         "en": "Adapter requires node.js >= 22 now\nSSE now updates chart in place via setOption instead of reloading the page — ECharts animations work correctly on data updates",
         "de": "Adapter benötigt node.js >= 22\nSSE aktualisiert nun das Diagramm über setOption anstelle des Neuladens der Seite — ECharts Animationen funktionieren korrekt bei Datenaktualisierungen",
@@ -80,32 +93,6 @@
         "pl": "Zmieniono wewnętrzną nazwę opcji wykresu z 'jsopts' na 'option'. Jeśli korzystasz z funkcji zdarzeniowych w swoich wykresach, możesz potrzebować dostosować nazewnictwo. Proszę odwołać się do pliku Readme.\nMigracja do ESLint 9. Naprawia problemy #107 (Migracja do ESLint 9) i #114 (znaleziska sprawdzacza repozytorium).",
         "uk": "Змінено внутрішнє ім'я параметрів діаграми з 'jsopts' на 'option'. Якщо ви використовуєте функції, які спровоковуються подіями у вашій діаграмі, можливо, знадобиться адаптувати іменування відповідним чином. Будь ласка, звертайтеся до файлу Readme.\nМіграція до ESLint 9. Виправлення проблем #107 (Міграція до ESLint 9) та #114 (виявлення в репозиторії чекера)",
         "zh-cn": "将图表选项的内部命名从'jsopts'更改为'option'。 如果您正在图表中使用基于事件的函数，则可能需要相应调整命名。 请参考自述文件。\n迁移至 ESLint 9。修复问题 #107（迁移至 ESLint 9）和 #114（存储库检查器的发现）"
-      },
-      "0.4.1": {
-        "en": "Fix for issue #96 (findings of repository checker)",
-        "de": "Fix für issue #96 (Ergebnisse des Repository-Checkers)",
-        "ru": "Исправление для выпуска #96 (находки проверки хранилища)",
-        "pt": "Fix para a edição #96 (definição do verificador de repositório)",
-        "nl": "Fix voor probleem #96 (bevindingen van repository checker)",
-        "fr": "Correction pour le numéro 96 (recherches du vérificateur du dépôt)",
-        "it": "Fissare per numero #96 (finanze di repository checker)",
-        "es": "Fijación para el número #96 (definiciones de repositorio)",
-        "pl": "Fix for issue # 96 (wyniki weryfikacji repozytorium)",
-        "uk": "Виправлення для випуску #96 (фінінги репозиторійного чекера)",
-        "zh-cn": "修复第96期(查找仓库检查器)"
-      },
-      "0.4.0": {
-        "en": "Added functionality to support event driven functions within charts, ref. issue #85\nAdded timeout for script as source\nAdded test cases for integration testing",
-        "de": "Funktionalität hinzugefügt, um ereignisgesteuerte Funktionen innerhalb von Charts zu unterstützen, siehe Issue #85\nTimeout für Skript als Quelle hinzugefügt\nTestfälle für Integrationstests hinzugefügt",
-        "ru": "Добавлена функциональность для поддержки функций, управляемых событиями, в чартах, реферат #85\nДобавлен тайм-аут для сценария в качестве источника\nДобавлены тестовые примеры для интеграционного тестирования",
-        "pt": "Adicionada funcionalidade para apoiar funções conduzidas do evento dentro de gráficos, ref. problema #85\nAdicionado timeout para script como fonte\nProcessos de teste adicionados para testes de integração",
-        "nl": "Toegevoegd functionaliteit ter ondersteuning van event driving functies binnen grafieken, ref. probleem #85\nTimeout toegevoegd voor script als bron\nToegevoegde testcases voor integratietests",
-        "fr": "Ajout de fonctionnalités pour soutenir les fonctions animées par un événement dans les graphiques, réf. numéro 85\nAjout du timeout pour script comme source\nAutres cas d ' essai pour les essais d ' intégration",
-        "it": "Aggiunta funzionalità per supportare le funzioni guidate da eventi all'interno dei grafici, ref. numero #85\nTimeout aggiunto per lo script come fonte\nAggiunti casi di test per test di integrazione",
-        "es": "Función agregada para apoyar las funciones impulsadas por eventos dentro de los gráficos, ref. edición #85\nTiempo añadido para script como fuente\nCasos de prueba adicionales para pruebas de integración",
-        "pl": "Dodano funkcjonalność do obsługi funkcji napędzanych zdarzeniami w wykresach, ref. wydanie # 85\nDodano timeout dla skryptu jako źródła\nDodano przypadki testów do badań integracyjnych",
-        "uk": "Додано функціонал для підтримки керованих функцій події в діаграмах, реф. problem #85\nДодано час для скрипта як джерело\nДодано тестові випадки для тестування інтеграції",
-        "zh-cn": "在图表中添加支持事件驱动函数的功能,参见第85期\n作为源代码添加到脚本的超时\n加入综合测试的测试案例"
       }
     },
     "titleLang": {

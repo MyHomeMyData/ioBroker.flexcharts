@@ -298,7 +298,7 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.7.2 (2026-05-07)
 * (MyHomeMyData) Added beginner-friendly templates 6 (energy stacked bar chart with history adapter) and 7 (reactive gauge chart with SSE auto-update)
 * (MyHomeMyData) Improved comments and STEP markers in templates 1–5
 * (MyHomeMyData) Added Wiki with Cookbook articles A1–A3 (step-by-step guides for building live charts)
