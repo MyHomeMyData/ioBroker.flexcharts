@@ -99,6 +99,28 @@ describe('lib/web.js => echarts.html structure', () => {
             assert.ok(idxDelete < idxRestore, `delete currentOption.${key} must happen before the option is restored`);
         }
     });
+
+    it('updateDarkMode() restores the saved option without animation, then re-enables animation for later updates', () => {
+        // Regression test: setTheme() clears all series before this function restores them again.
+        // Without disabling animation for that specific restore, ECharts treats it as brand new
+        // series appearing and plays their entrance animation (bars growing up from zero, etc.),
+        // which visibly looks like the chart rebuilding instead of just recoloring in place.
+        // Animation must be switched back on afterward so later updates (SSE, user interaction) keep
+        // animating normally - this must not permanently disable animation for the whole chart.
+        const fnStart = html.indexOf('function updateDarkMode()');
+        const fnEnd = html.indexOf('\n      }', fnStart);
+        const fnBody = html.slice(fnStart, fnEnd);
+        const idxGetOption = fnBody.indexOf('myChart.getOption()');
+        const idxDisable = fnBody.indexOf('currentOption.animation = false', idxGetOption);
+        const idxRestore = fnBody.indexOf('myChart.setOption(currentOption)', idxGetOption);
+        const idxReenable = fnBody.indexOf('myChart.setOption({ animation:', idxGetOption);
+
+        assert.ok(idxDisable >= 0, 'updateDarkMode() must set currentOption.animation = false before restoring');
+        assert.ok(idxRestore >= 0, 'updateDarkMode() must restore via myChart.setOption(currentOption)');
+        assert.ok(idxReenable >= 0, 'updateDarkMode() must re-enable animation with a follow-up setOption() call');
+        assert.ok(idxDisable < idxRestore, 'animation must be disabled before the option is restored');
+        assert.ok(idxRestore < idxReenable, 'animation must be re-enabled only after the restore is applied');
+    });
 });
 
 describe('lib/web.js => applyPreInitFunctions()', () => {

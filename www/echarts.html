@@ -43,6 +43,13 @@
         delete currentOption.backgroundColor;
         delete currentOption.gradientColor;
         delete currentOption.textStyle;
+        // setTheme() below clears all series before this function restores them again — without
+        // this, ECharts treats the restore as brand new series appearing and plays their entrance
+        // animation (e.g. bars growing up from zero), which looks like the chart rebuilding instead
+        // of just recoloring. Restore without animation, then switch animation back on afterward for
+        // any later updates (SSE, user interaction, ...).
+        const originalAnimation = currentOption.animation === undefined ? true : currentOption.animation;
+        currentOption.animation = false;
         switch (myDarkMode) {
           case 'default':
             myChart.setTheme('default');
@@ -59,6 +66,7 @@
             break;
         }
         myChart.setOption(currentOption);
+        myChart.setOption({ animation: originalAnimation });
       }
       darkModeMediaQuery.addEventListener('change', () => {
           updateDarkMode();
