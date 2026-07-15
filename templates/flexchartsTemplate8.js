@@ -9,26 +9,25 @@
 
    This template demonstrates two advanced flexcharts/ECharts features:
    1. Registering a custom map from GeoJSON data with echarts.registerMap() —
-      this must happen in the browser, and it must happen BEFORE the option
-      that references the map is applied via setOption(). Since flexcharts'
-      echarts.html only calls setOption() once (with the option returned by
-      this script), the registerMap() call is placed in front of the actual
-      option using JavaScript's comma operator: the chart option sent to the
-      browser is the single expression
-        (echarts.registerMap('iceland', <geoJSON>), <the real chart option>)
-      which first registers the map as a side effect, then evaluates to the
-      real option — all before flexcharts' one and only setOption() call runs.
-      (Do NOT try to register the map from an event handler — see
-      flexchartsTemplate4.js for how event handlers work — because
-      flexcharts' echarts.html applies a theme via setTheme() right after
-      the initial setOption() call, which discards any series added by a
-      later, separate setOption() call.)
+      this must happen in the browser, via an event handler function (see
+      flexchartsTemplate4.js for background on this flexcharts technique):
+      flexcharts evaluates this code in the browser right after the chart is
+      initialized, and it registers the map before applying the real chart
+      option via its own setOption() call.
+      (Requires flexcharts >= see fix/setTheme: earlier versions applied the
+      dark/light theme via setTheme() right after the initial setOption()
+      call, which discarded any series set by a later, separate setOption()
+      call — such as the one used here. If registerMap() + setOption() from
+      an event handler silently produces a blank chart, update flexcharts.)
    2. Placing pie chart series on real-world map coordinates using
       series.coordinateSystem: 'geo'.
 
    Preconditions:
     * Adapter flexcharts is running
     * This script is running on instance 0 of javascript adapter (javascript.0)
+    * The npm module "javascript-stringify" has been added in the javascript adapter
+      configuration under "Additional npm modules"
+      (for further information see https://github.com/blakeembrey/javascript-stringify)
 
    Open in browser (replace localhost and 8082 with your ioBroker address and port):
      http://localhost:8082/flexcharts/echarts.html?source=script&message=demo_map_iceland_pie
@@ -43,6 +42,8 @@
 */
 
 // 15.07.2026   MyHomeMyData
+
+var strify = require('javascript-stringify');
 
 // flexcharts calls this function whenever the browser requests the chart.
 onMessage('demo_map_iceland_pie', (httpParams, callback) => {
@@ -125,7 +126,7 @@ function demo_map_iceland_pie(callback) {
     }));
 
     // The actual map option — only valid once the map named 'iceland' has been
-    // registered in the browser (see below).
+    // registered in the browser (done by onEvent below).
     const mapOption = {
         geo: {
             map: 'iceland',
@@ -141,20 +142,19 @@ function demo_map_iceland_pie(callback) {
     };
 
     // ECharts can only register a custom map with echarts.registerMap() in the browser —
-    // there is no server-side equivalent, and it must happen BEFORE the option that uses
-    // it is applied via setOption(). flexcharts' echarts.html calls setOption() exactly
-    // once, with the option returned by this function — so the registerMap() call is
-    // placed in front of the real option using the comma operator: JavaScript evaluates
-    // "(a, b)" by running "a" for its side effect, then evaluating to "b". This registers
-    // the map as a side effect and evaluates to mapOption, all before setOption() runs.
+    // there is no server-side equivalent. This is done here via an event handler string
+    // (see flexchartsTemplate4.js for background on this flexcharts technique): flexcharts
+    // evaluates this code in the browser right after the chart is initialized. It registers
+    // the map and then applies the real chart option.
     //
-    // (An event handler function — see flexchartsTemplate4.js for that technique — looks
-    // like the more obvious way to call registerMap(), but does NOT work here: flexcharts'
-    // echarts.html applies a theme via setTheme() right after its one setOption() call,
-    // which discards any series set later via a second, separate setOption() call.)
-    const chartOptionExpression =
-        '(echarts.registerMap("iceland",' + JSON.stringify(icelandGeoJson) + '),' +
-        JSON.stringify(mapOption) + ')';
+    // The initial option returned below is intentionally empty; onEvent replaces it with
+    // mapOption as soon as the map is registered.
+    const onEvent =
+        'echarts.registerMap("iceland",' + JSON.stringify(icelandGeoJson) + ');' +
+        'myChart.setOption(' + strify.stringify(mapOption) + ');';
 
-    callback(chartOptionExpression);
+    // flexcharts expects an array when both a chart option and event handlers are provided:
+    //   [0] — the stringified (empty) initial chart option
+    //   [1] — the event handler as a JavaScript string
+    callback([strify.stringify({}), onEvent]);
 }

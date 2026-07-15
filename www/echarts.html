@@ -49,11 +49,15 @@
           updateDarkMode();
       });
 
+      /* preInitFunctions() */
+
+      myChart.setOption({}); // Bootstrap call: creates the chart's internal model so setTheme()
+                              // below can take effect (it is a no-op before the first setOption() call).
+      updateDarkMode();
+
       myChart.setOption(option);
 
       /* userFunctions() */
-
-      updateDarkMode();
 
       // SSE: auto-update chart when source data changes (activated by &sse URL parameter)
       (function() {
