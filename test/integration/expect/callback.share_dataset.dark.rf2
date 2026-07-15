@@ -49,11 +49,15 @@
           updateDarkMode();
       });
 
+      /* preInitFunctions() */
+
+      myChart.setOption({}); // Bootstrap call: creates the chart's internal model so setTheme()
+                              // below can take effect (it is a no-op before the first setOption() call).
+      updateDarkMode();
+
       myChart.setOption(option);
 
       myChart.on('updateAxisPointer',function(e){let t=e.axesInfo[0];if(t){let i=t.value+1;myChart.setOption({series:{id:'pie',label:{formatter:'{b}: {@['+i+']} ({d}%)'},encode:{value:i,tooltip:i}}})}});/* userFunctions() */
-
-      updateDarkMode();
 
       // SSE: auto-update chart when source data changes (activated by &sse URL parameter)
       (function() {
