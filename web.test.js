@@ -53,6 +53,52 @@ describe('lib/web.js => echarts.html structure', () => {
         assert.ok(idxUpdateDarkMode < idxRealSetOption, 'updateDarkMode()/setTheme() must run before the real setOption(option)');
         assert.ok(idxRealSetOption < idxUserFct, 'the real setOption(option) must run before userFunctions()');
     });
+
+    it('updateDarkMode() saves the current option via getOption() and restores it via setOption() around setTheme()', () => {
+        // Regression test: myChart.setTheme() discards the currently displayed option (see the
+        // preInitFunctions()/setTheme() ordering fix above). updateDarkMode() is not just called
+        // once during page load - the darkModeMediaQuery 'change' listener calls it again, at
+        // runtime, whenever the system's color scheme changes. By that point the chart may show
+        // much more than the initial `option` (e.g. userFunctions()-driven updates), so it must
+        // round-trip through myChart.getOption()/setOption(), not just re-apply the initial `option`
+        // variable.
+        const fnStart = html.indexOf('function updateDarkMode()');
+        const fnEnd = html.indexOf('\n      }', fnStart);
+        assert.ok(fnStart >= 0 && fnEnd > fnStart, 'updateDarkMode() function body not found');
+        const fnBody = html.slice(fnStart, fnEnd);
+
+        // Search from after the "const currentOption = myChart.getOption();" call onward, so an
+        // explanatory comment mentioning "myChart.setTheme(" above it can't produce a false match.
+        const idxGetOption = fnBody.indexOf('myChart.getOption()');
+        assert.ok(idxGetOption >= 0, 'updateDarkMode() must call myChart.getOption() to save the current state');
+        const idxSetTheme = fnBody.indexOf('myChart.setTheme(', idxGetOption);
+        const idxRestore = fnBody.indexOf('myChart.setOption(', idxGetOption);
+
+        assert.ok(idxRestore >= 0, 'updateDarkMode() must call myChart.setOption() to restore the saved state');
+        assert.ok(idxGetOption < idxSetTheme, 'getOption() must be called before any setTheme() call');
+        assert.ok(idxSetTheme < idxRestore, 'the saved state must be restored via setOption() after setTheme()');
+    });
+
+    it('updateDarkMode() strips theme-owned global styling keys from the saved option before restoring it', () => {
+        // Regression test: myChart.getOption() resolves the *previous* theme's global styling
+        // defaults (series color palette, background, ...) into explicit values. Restoring the
+        // saved option verbatim after setTheme() would freeze those at their old values instead of
+        // letting the newly applied theme provide its own - e.g. the chart background updates on a
+        // system theme change, but the series color palette silently stays stuck on the old theme's
+        // colors. These keys must be deleted from the saved snapshot before it is restored.
+        const fnStart = html.indexOf('function updateDarkMode()');
+        const fnEnd = html.indexOf('\n      }', fnStart);
+        const fnBody = html.slice(fnStart, fnEnd);
+        const idxGetOption = fnBody.indexOf('myChart.getOption()');
+        const idxRestore = fnBody.lastIndexOf('myChart.setOption(');
+
+        for (const key of ['color', 'backgroundColor', 'gradientColor', 'textStyle']) {
+            const idxDelete = fnBody.indexOf(`delete currentOption.${key}`);
+            assert.ok(idxDelete >= 0, `updateDarkMode() must delete currentOption.${key} before restoring`);
+            assert.ok(idxDelete > idxGetOption, `delete currentOption.${key} must happen after the option was saved`);
+            assert.ok(idxDelete < idxRestore, `delete currentOption.${key} must happen before the option is restored`);
+        }
+    });
 });
 
 describe('lib/web.js => applyPreInitFunctions()', () => {

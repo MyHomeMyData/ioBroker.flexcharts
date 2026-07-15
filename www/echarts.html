@@ -29,6 +29,20 @@
 
       const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       function updateDarkMode() {
+        // myChart.setTheme() rebuilds the chart from scratch and discards whatever is currently
+        // shown (see the bootstrap setOption({}) comment below for why). Save the full current
+        // state first and restore it afterward, so this function is safe to call again later —
+        // e.g. from the darkModeMediaQuery listener below, when the system's color scheme changes
+        // at runtime.
+        const currentOption = myChart.getOption();
+        // getOption() returns the fully resolved option, including the *previous* theme's own
+        // global styling defaults (color palette, background, ...) baked in as explicit values.
+        // Delete them before restoring, so they are picked up fresh from the newly applied theme
+        // below instead of staying frozen at their old value.
+        delete currentOption.color;
+        delete currentOption.backgroundColor;
+        delete currentOption.gradientColor;
+        delete currentOption.textStyle;
         switch (myDarkMode) {
           case 'default':
             myChart.setTheme('default');
@@ -44,6 +58,7 @@
             myChart.setTheme('default');
             break;
         }
+        myChart.setOption(currentOption);
       }
       darkModeMediaQuery.addEventListener('change', () => {
           updateDarkMode();
