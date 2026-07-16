@@ -28,12 +28,38 @@
       });
 
       const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      function setThemeByMode() {
+        switch (myDarkMode) {
+          case 'default':
+            myChart.setTheme('default');
+            break;
+          case 'dark':
+            myChart.setTheme('dark');
+            break;
+          case 'auto':
+            const isDarkMode = darkModeMediaQuery.matches;
+            myChart.setTheme(isDarkMode ? 'dark' : 'default');
+            break;
+          default:
+            myChart.setTheme('default');
+            break;
+        }
+      }
+      // true once updateDarkMode() below has run for the first time (see there for why this matters)
+      let darkModeInitialized = false;
       function updateDarkMode() {
-        // myChart.setTheme() rebuilds the chart from scratch and discards whatever is currently
-        // shown (see the bootstrap setOption({}) comment below for why). Save the full current
-        // state first and restore it afterward, so this function is safe to call again later —
-        // e.g. from the darkModeMediaQuery listener below, when the system's color scheme changes
-        // at runtime.
+        if (!darkModeInitialized) {
+          // First call, from the bootstrap sequence below: nothing is shown yet at this point (see
+          // the bootstrap setOption({}) comment below for why), so there is nothing to lose - a
+          // plain setTheme() is enough, same as flexcharts always did before this fix existed.
+          setThemeByMode();
+          darkModeInitialized = true;
+          return;
+        }
+        // Later calls only ever come from the darkModeMediaQuery listener below, i.e. when the
+        // system's color scheme changes at runtime while the chart is already showing real
+        // content. myChart.setTheme() rebuilds the chart from scratch and would discard that
+        // content - save the full current state first and restore it afterward.
         const currentOption = myChart.getOption();
         // getOption() returns the fully resolved option, including the *previous* theme's own
         // global styling defaults (color palette, background, ...) baked in as explicit values.
@@ -50,21 +76,7 @@
         // any later updates (SSE, user interaction, ...).
         const originalAnimation = currentOption.animation === undefined ? true : currentOption.animation;
         currentOption.animation = false;
-        switch (myDarkMode) {
-          case 'default':
-            myChart.setTheme('default');
-            break;
-          case 'dark':
-            myChart.setTheme('dark');
-            break;
-          case 'auto':
-            const isDarkMode = darkModeMediaQuery.matches;
-            myChart.setTheme(isDarkMode ? 'dark' : 'default');
-            break;
-          default:
-            myChart.setTheme('default');
-            break;
-        }
+        setThemeByMode();
         myChart.setOption(currentOption);
         myChart.setOption({ animation: originalAnimation });
       }
