@@ -35,6 +35,18 @@ describe('lib/web.js => echarts.html structure', () => {
         assert.strictEqual((html.match(/\/\* userFunctions\(\) \*\//g) || []).length, 1);
     });
 
+    it('setThemeByMode() applies myChart.setTheme() for every myDarkMode value', () => {
+        const fnStart = html.indexOf('function setThemeByMode()');
+        const fnEnd = html.indexOf('\n      }', fnStart);
+        assert.ok(fnStart >= 0 && fnEnd > fnStart, 'setThemeByMode() function body not found');
+        const fnBody = html.slice(fnStart, fnEnd);
+
+        assert.match(fnBody, /case 'default':\s*myChart\.setTheme\('default'\)/);
+        assert.match(fnBody, /case 'dark':\s*myChart\.setTheme\('dark'\)/);
+        assert.match(fnBody, /case 'auto':[\s\S]*?myChart\.setTheme\(isDarkMode \? 'dark' : 'default'\)/);
+        assert.match(fnBody, /default:\s*myChart\.setTheme\('default'\)/);
+    });
+
     it('runs preInitFunctions(), then the setTheme() bootstrap, then the real setOption(), then userFunctions() - in that order', () => {
         const idxPreInit = html.indexOf('/* preInitFunctions() */');
         const idxBootstrapSetOption = html.indexOf("myChart.setOption({});");
@@ -54,29 +66,54 @@ describe('lib/web.js => echarts.html structure', () => {
         assert.ok(idxRealSetOption < idxUserFct, 'the real setOption(option) must run before userFunctions()');
     });
 
-    it('updateDarkMode() saves the current option via getOption() and restores it via setOption() around setTheme()', () => {
-        // Regression test: myChart.setTheme() discards the currently displayed option (see the
-        // preInitFunctions()/setTheme() ordering fix above). updateDarkMode() is not just called
-        // once during page load - the darkModeMediaQuery 'change' listener calls it again, at
-        // runtime, whenever the system's color scheme changes. By that point the chart may show
-        // much more than the initial `option` (e.g. userFunctions()-driven updates), so it must
-        // round-trip through myChart.getOption()/setOption(), not just re-apply the initial `option`
-        // variable.
+    it('updateDarkMode() applies a plain setTheme() and returns early on its first call, before touching getOption()/setOption()', () => {
+        // Risk-reduction design: on the very first call (from the bootstrap sequence below),
+        // nothing has been rendered yet, so there is nothing the more elaborate save/restore dance
+        // further down could lose - a plain theme switch (matching flexcharts' behavior before this
+        // fix existed) is enough and confines the getOption()/setOption() round-trip to only run
+        // when it is actually needed: on a later, real runtime theme change.
         const fnStart = html.indexOf('function updateDarkMode()');
         const fnEnd = html.indexOf('\n      }', fnStart);
         assert.ok(fnStart >= 0 && fnEnd > fnStart, 'updateDarkMode() function body not found');
         const fnBody = html.slice(fnStart, fnEnd);
 
-        // Search from after the "const currentOption = myChart.getOption();" call onward, so an
-        // explanatory comment mentioning "myChart.setTheme(" above it can't produce a false match.
-        const idxGetOption = fnBody.indexOf('myChart.getOption()');
-        assert.ok(idxGetOption >= 0, 'updateDarkMode() must call myChart.getOption() to save the current state');
-        const idxSetTheme = fnBody.indexOf('myChart.setTheme(', idxGetOption);
-        const idxRestore = fnBody.indexOf('myChart.setOption(', idxGetOption);
+        const idxGuard = fnBody.indexOf('if (!darkModeInitialized)');
+        assert.ok(idxGuard >= 0, 'updateDarkMode() must guard its first call with an initialization flag');
+        const guardBlockEnd = fnBody.indexOf('\n        }', idxGuard);
+        const guardBlock = fnBody.slice(idxGuard, guardBlockEnd);
 
+        assert.ok(guardBlock.includes('setThemeByMode()'), 'the first-call branch must apply the theme');
+        assert.ok(guardBlock.includes('darkModeInitialized = true'), 'the first-call branch must record that it has run');
+        assert.ok(guardBlock.includes('return'), 'the first-call branch must return before reaching the save/restore logic below');
+        assert.ok(!guardBlock.includes('getOption'), 'the first-call branch must not touch getOption() - there is nothing to save yet');
+    });
+
+    it('updateDarkMode() saves the current option via getOption() and restores it via setOption() around setThemeByMode() on later calls', () => {
+        // Regression test: myChart.setTheme() (called by setThemeByMode()) discards the currently
+        // displayed option (see the preInitFunctions()/setTheme() ordering fix above). Later calls
+        // to updateDarkMode() - only ever from the darkModeMediaQuery 'change' listener, i.e. a real
+        // runtime theme change - can hit a chart that shows much more than the initial `option`
+        // (e.g. userFunctions()-driven updates), so they must round-trip through
+        // myChart.getOption()/setOption(), not just re-apply the initial `option` variable.
+        const fnStart = html.indexOf('function updateDarkMode()');
+        const fnEnd = html.indexOf('\n      }', fnStart);
+        const fnBody = html.slice(fnStart, fnEnd);
+
+        // Only look at the code after the first-call early return, so the guard block above (which
+        // intentionally does NOT call getOption()) can't produce a false match here.
+        const idxReturn = fnBody.indexOf('return;');
+        assert.ok(idxReturn >= 0, 'first-call branch must contain a return statement');
+        const laterBody = fnBody.slice(idxReturn);
+
+        const idxGetOption = laterBody.indexOf('myChart.getOption()');
+        assert.ok(idxGetOption >= 0, 'updateDarkMode() must call myChart.getOption() to save the current state on later calls');
+        const idxSetTheme = laterBody.indexOf('setThemeByMode()', idxGetOption);
+        const idxRestore = laterBody.indexOf('myChart.setOption(', idxGetOption);
+
+        assert.ok(idxSetTheme >= 0, 'the later-call branch must apply the theme via setThemeByMode()');
         assert.ok(idxRestore >= 0, 'updateDarkMode() must call myChart.setOption() to restore the saved state');
-        assert.ok(idxGetOption < idxSetTheme, 'getOption() must be called before any setTheme() call');
-        assert.ok(idxSetTheme < idxRestore, 'the saved state must be restored via setOption() after setTheme()');
+        assert.ok(idxGetOption < idxSetTheme, 'getOption() must be called before setThemeByMode()');
+        assert.ok(idxSetTheme < idxRestore, 'the saved state must be restored via setOption() after setThemeByMode()');
     });
 
     it('updateDarkMode() strips theme-owned global styling keys from the saved option before restoring it', () => {
