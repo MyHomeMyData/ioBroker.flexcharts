@@ -288,6 +288,7 @@ Base URL: `http://localhost:8082/flexcharts/echarts.html`
 | `triggerid=<state_id>` | | State ID to watch for changes when using `source=script` with `&sse`. |
 | `themev5` | | Use Apache ECharts v5 default and dark themes instead of v6 defaults. |
 | `<custom>=<value>` | | Any additional parameters are forwarded to the script in `httpParams`. |
+| `requestTimeout=<n>` | ms, default 2000 | Timeout for `source=script` waiting on the script's response. Increase if the script's computation (or a shared/serial queue) regularly takes longer than the default. |
 
 ## Donate
 
@@ -299,6 +300,9 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (MyHomeMyData) Added optional `requestTimeout` parameter for `source=script` widgets to configure the timeout waiting on the script's response (default 2000 ms, unchanged). Ref. issue #205
+
 ### 0.7.2 (2026-05-07)
 * (MyHomeMyData) Added beginner-friendly templates 6 (energy stacked bar chart with history adapter) and 7 (reactive gauge chart with SSE auto-update)
 * (MyHomeMyData) Improved comments and STEP markers in templates 1–5
