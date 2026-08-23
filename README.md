@@ -20,6 +20,13 @@ Take a look at the [ECharts demo gallery](https://echarts.apache.org/examples/en
 
 Remark: Adapter was not tested on MacOS, yet.
 
+## What's new in v0.7.3
+
+**Configurable timeout for `source=script` widgets** — avoids false timeout errors for computation-heavy or coordinated/serial chart setups:
+
+- New optional `&requestTimeout=<ms>` parameter overrides the default 2000 ms wait for the script's `onMessage()` response
+- Default behavior is unchanged — only relevant if you actually hit the timeout
+
 ## What's new in v0.7.2
 
 **Beginner-friendly templates and step-by-step Cookbook** — making flexcharts more accessible for users new to ECharts:
@@ -35,18 +42,6 @@ Remark: Adapter was not tested on MacOS, yet.
 - ECharts animations run smoothly on every data update
 - No flickering or chart rebuild on refresh
 - Works transparently for all existing `&sse` URLs — no changes needed
-
-## What's new in v0.7.0
-
-**Event-triggered chart refresh via SSE** — charts now update automatically when their source data changes, without any polling:
-
-- Add `&sse` to a chart URL to activate [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
-- With `source=state`: the chart updates whenever the state specified by `&id=` changes
-- With `source=script`: add `&triggerid=<state_id>` to specify which state triggers the update
-
-Example: `http://localhost:8082/flexcharts/echarts.html?source=state&id=0_userdata.0.echarts.chart1&sse`
-
-See [Event-triggered chart refresh (SSE)](#event-triggered-chart-refresh-sse) for full details.
 
 ## How it works
 
