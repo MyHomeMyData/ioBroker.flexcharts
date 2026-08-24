@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "flexcharts",
-    "version": "0.7.2",
+    "version": "0.7.3",
     "news": {
+      "0.7.3": {
+        "en": "Added optional `requestTimeout` parameter for `source=script` widgets to configure the timeout waiting on the script's response (default 2000 ms, unchanged). Ref. issue #205",
+        "de": "Für `source=script`-Widgets wurde der optionale Parameter `requestTimeout` hinzugefügt, um das Timeout für die Antwort des Skripts zu konfigurieren (Standardwert: 2000 ms, unverändert). Siehe Issue #205.",
+        "ru": "Добавлен необязательный параметр `requestTimeout` для виджетов `source=script`, позволяющий настроить время ожидания ответа от скрипта (по умолчанию 2000 мс, без изменений). См. проблему #205",
+        "pt": "Adicionado o parâmetro opcional `requestTimeout` para widgets `source=script` para configurar o tempo limite de espera pela resposta do script (padrão de 2000 ms, sem alterações). Consulte a issue #205.",
+        "nl": "Er is een optionele parameter `requestTimeout` toegevoegd voor widgets met `source=script` om de time-out in te stellen voor het wachten op een reactie van het script (standaard 2000 ms, ongewijzigd). Zie issue #205.",
+        "fr": "Ajout d'un paramètre optionnel `requestTimeout` pour les widgets `source=script` afin de configurer le délai d'attente de la réponse du script (2000 ms par défaut, inchangé). Voir le problème n° 205.",
+        "it": "Aggiunto il parametro opzionale `requestTimeout` per i widget `source=script` per configurare il timeout di attesa della risposta dello script (valore predefinito 2000 ms, invariato). Rif. problema n. 205",
+        "es": "Se agregó el parámetro opcional `requestTimeout` para los widgets `source=script` para configurar el tiempo de espera de la respuesta del script (valor predeterminado: 2000 ms, sin cambios). Véase el problema n.° 205.",
+        "pl": "Dodano opcjonalny parametr `requestTimeout` dla widżetów `source=script`, aby skonfigurować limit czasu oczekiwania na odpowiedź skryptu (domyślnie 2000 ms, bez zmian). Patrz problem nr 205.",
+        "uk": "Додано необов'язковий параметр `requestTimeout` для віджетів `source=script` для налаштування тайм-ауту очікування відповіді скрипта (за замовчуванням 2000 мс, без змін). Посилання на проблему №205",
+        "zh-cn": "为 `source=script` 小部件添加了可选的 `requestTimeout` 参数，用于配置等待脚本响应的超时时间（默认值为 2000 毫秒，保持不变）。参见问题 #205"
+      },
       "0.7.2": {
         "en": "Added beginner-friendly templates #6 (energy stacked bar chart with history adapter) and #7 (reactive gauge chart with SSE auto-update)\nImproved comments and STEP markers in templates 1–5\nAdded Wiki with Cookbook articles A1–A3 (step-by-step guides for building live charts)",
         "de": "Anfängerfreundliche Vorlagen ergänzt #6 (gestapeltes Balkendiagramm mit History-Adapter) und #7 (reaktives Messwertanzeige mit SSE-Auto-Update)\nVerbesserte Kommentare und STEP-Marker in Vorlagen 1–5\nWiki mit Cookbook-Artikeln A1–A3 hinzugefügt (Schritt-für-Schritt-Anleitung für den Aufbau von Live-Charts)",
@@ -80,19 +93,6 @@
         "pl": "Aktualizacja Apache ECharts do wersji 6.0.0 przy użyciu nowego domyślnego motywu - zobacz Readme! Numer referencyjny # 125\nDodano opcję dynamicznego przełączania trybu ciemności poprzez słuchanie ustawień systemu. Na podstawie Apache ECharts 6.\nDodano możliwość dodawania własnych motywów. Na podstawie Apache ECharts 6.\nRozszerzone wsparcie dla definicji funkcji onEvent. Teraz można zdefiniować nieograniczoną liczbę funkcji zamiast jednej.\nFixes for issue # 132 (repository checker)",
         "uk": "Оновлено Apache ECharts до версії 6.0.0 за допомогою нової теми за замовчуванням - будь ласка, подивіться на Readme! Ref. номер #125\nДодана можливість динамічно переключати темний режим шляхом прослуховування налаштування системи. На основі Apache ECharts 6.\nДодана можливість додати самовизнані теми. На основі Apache ECharts 6.\nРозширена підтримка визначення функцій навігаторів. Тепер можна визначити необмежену кількість функцій.\nВиправлення для випуску #132 (репозиторійний чекер)",
         "zh-cn": "使用全新的默认主题更新Apache ECharts至6.0.0版本 - 请查看Readme! 参考第125号问题\n通过监听系统设置,添加到动态切换暗模式的选项. 依据Apache ECharts 6.\n添加自定义主题的可能性 。 依据Apache ECharts 6.\n扩展支持定义 Event 函数 。 现在可以定义无限数量的函数,而不只是一个.\n第132期的修复(仓库检查器)"
-      },
-      "0.5.0": {
-        "en": "Changed internal naming of chart's options from 'jsopts' to 'option'. If you're using event driven functions within your charts, you may need to adapt the naming accordingly. Pls. refer to Readme.\nMigration to ESLint 9. Fixes issues #107 (Migration to ESLint 9) and #114 (findings of repository checker)",
-        "de": "Der interne Variablenname der Chart-Optionen wurde von 'jsopts' auf 'option' geändert. Wenn Sie ereignisgesteuerte Funktionen in Ihren Diagrammen verwenden, müssen Sie möglicherweise den Variablennamen entsprechend anpassen. Bitte beachten Sie die Readme.\nMigration zu ESLint 9 durchgeführt. Behebt Issues #107 (Migration to ESLint 9) und #114 (findings of repository checker).",
-        "ru": "Изменено внутреннее название опций графика с 'jsopts' на 'option'. Если вы используете функции, основанные на событиях в ваших графиках, вам может потребоваться адаптировать названия соответственно. Пожалуйста, обратитесь к Readme.\nМиграция на ESLint 9. Исправлены проблемы #107 (Миграция на ESLint 9) и #114 (находки репозитория проверки)",
-        "pt": "Alterado o nome interno das opções do gráfico de 'jsopts' para 'option'. Se você estiver usando funções baseadas em eventos nos seus gráficos, pode ser necessário adaptar o nome de acordo. Por favor, consulte o Leia-me.\nMigração para ESLint 9. Corrige problemas #107 (Migração para ESLint 9) e #114 (resultados do verificador de repositório)",
-        "nl": "Interne naamgeving van de opties van de grafiek is gewijzigd van 'jsopts' naar 'option'. Als je event-driven functies gebruikt in je grafieken, moet je mogelijk de naamgeving aanpassen. Zie Readme voor meer informatie.\nMigratie naar ESLint 9. Lost problemen #107 (Migratie naar ESLint 9) en #114 (bevindingen van repository checker) op.",
-        "fr": "Changement de la dénomination interne des options des graphiques de 'jsopts' à 'option'. Si vous utilisez des fonctions événementielles dans vos graphiques, vous devrez peut-être adapter la dénomination en conséquence. Veuillez consulter le fichier Lisez-moi.\nMigration vers ESLint 9. Résout les problèmes #107 (Migration vers ESLint 9) et #114 (constatations de l'analyseur de dépôt)",
-        "it": "Modificato il nome interno delle opzioni del grafico da 'jsopts' a 'opzione'. Se stai utilizzando funzioni basate sugli eventi all'interno dei tuoi grafici, potresti dover adattare il nome di conseguenza. Consultare il file Readme.\nMigrazione a ESLint 9. Risolve i problemi #107 (Migrazione a ESLint 9) e #114 (trovati del repository checker)",
-        "es": "Se cambió el nombre interno de las opciones del gráfico de 'jsopts' a 'option'. Si estás utilizando funciones basadas en eventos dentro de tus gráficos, es posible que necesites adaptar el nombre en consecuencia. Por favor, consulta el README.\nMigración a ESLint 9. Soluciona los problemas #107 (Migración a ESLint 9) y #114 (hallazgos del comprobador de repositorios)",
-        "pl": "Zmieniono wewnętrzną nazwę opcji wykresu z 'jsopts' na 'option'. Jeśli korzystasz z funkcji zdarzeniowych w swoich wykresach, możesz potrzebować dostosować nazewnictwo. Proszę odwołać się do pliku Readme.\nMigracja do ESLint 9. Naprawia problemy #107 (Migracja do ESLint 9) i #114 (znaleziska sprawdzacza repozytorium).",
-        "uk": "Змінено внутрішнє ім'я параметрів діаграми з 'jsopts' на 'option'. Якщо ви використовуєте функції, які спровоковуються подіями у вашій діаграмі, можливо, знадобиться адаптувати іменування відповідним чином. Будь ласка, звертайтеся до файлу Readme.\nМіграція до ESLint 9. Виправлення проблем #107 (Міграція до ESLint 9) та #114 (виявлення в репозиторії чекера)",
-        "zh-cn": "将图表选项的内部命名从'jsopts'更改为'option'。 如果您正在图表中使用基于事件的函数，则可能需要相应调整命名。 请参考自述文件。\n迁移至 ESLint 9。修复问题 #107（迁移至 ESLint 9）和 #114（存储库检查器的发现）"
       }
     },
     "titleLang": {

@@ -1,5 +1,19 @@
 # Older Changelog Entries
 
+## 0.6.1 (2025-11-01)
+* (MyHomeMyData) Added support for dark mode theme of ECharts version 5.6.0 (when using paramter themev5). Based on Apache ECharts 6.
+
+## 0.6.0 (2025-10-19)
+* (MyHomeMyData) Updated Apache ECharts to version 6.0.0 using brand new default theme - please take a look to Readme! Ref. issue #125
+* (MyHomeMyData) Added option to dynamically switch dark mode by listening to the system's setting. Based on Apache ECharts 6.
+* (MyHomeMyData) Added possibility to add self defined themes. Based on Apache ECharts 6.
+* (MyHomeMyData) Extended support for definition of onEvent functions. Now an unlimited number of functions can be defined instead of just one.
+* (MyHomeMyData) Fixes for issue #132 (repository checker)
+
+## 0.5.0 (2025-09-17)
+* (MyHomeMyData) Changed internal naming of chart's options from 'jsopts' to 'option'. If you're using event driven functions within your charts, you may need to adapt the naming accordingly. Pls. refer to Readme.
+* (MyHomeMyData) Migration to ESLint 9. Fixes issues #107 (Migration to ESLint 9) and #114 (findings of repository checker)
+
 ### 0.4.1 (2025-05-22)
 * (MyHomeMyData) Fix for issue #96 (findings of repository checker)
 
