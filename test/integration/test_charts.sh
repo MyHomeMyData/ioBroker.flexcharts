@@ -220,6 +220,7 @@ test_curl "Check for callback share_dataset dark mode on and refresh 10" "http:/
 test_curl "Check for callback share_dataset dark mode auto and refresh 10" "http://$HOST:$PORT/flexcharts/echarts.html?source=script&message=demo_share_dataset&darkmode=auto&refresh=10" "callback.share_dataset.dark_auto.rf10" "$MODE"
 test_curl "Check for callback using own theme definitions (template5) and dark mode auto" "http://$HOST:$PORT/flexcharts/echarts.html?source=script&message=theme&darkmode=auto" "callback.theme.dark_auto" "$MODE"
 test_curl "Check for timeout on callback with wrong message" "http://$HOST:$PORT/flexcharts/echarts.html?source=script&message=message_for_timeout" "callback.timeout" "$MODE"
+test_curl "Check for timeout on callback with wrong message and requestTimeout=3000" "http://$HOST:$PORT/flexcharts/echarts.html?source=script&message=message_for_timeout&requestTimeout=3000" "callback.timeout.3000" "$MODE"
 test_curl "Check for changes in Apache echarts.min.js" "http://$HOST:$PORT/flexcharts/echarts.min.js" "echarts.min.js" "$MODE"
 test_curl "Check for changes in Apache echarts-gl.min.js" "http://$HOST:$PORT/flexcharts/echarts-gl.min.js" "echarts-gl.min.js" "$MODE"
 test_sse "Check SSE endpoint for state source" "http://$HOST:$PORT/flexcharts/events?source=state&id=flexcharts.0.info.chart1" "sse.state.chart1" "$MODE"
