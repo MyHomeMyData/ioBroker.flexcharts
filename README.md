@@ -157,7 +157,7 @@ ECharts supports interactive charts that update in response to user actions. See
 
 Use a **script as source** and pass chart definition and event handlers as an array. [Template 4](templates/flexchartsTemplate4.js) demonstrates this. Key rules:
 
-- Event handlers must use `myChart.on("event", function(e){ ... })`
+- Typically registers an interactive listener via `myChart.on("event", function(e){ ... })`, but any JavaScript that should run once right after the chart is initialized works too — e.g. `echarts.registerMap()` followed by a second `myChart.setOption()` call, as used in [template8](templates/flexchartsTemplate8.js) for map charts
 - The handler must be a JavaScript string (use consistent quoting, or minify with a [JS minifier](https://www.toptal.com/developers/javascript-minifier))
 - Pass everything as an array: `callback([strify.stringify(option), onEvent1, onEvent2])`
 
@@ -226,7 +226,14 @@ Use the Apache ECharts [Theme Builder](https://echarts.apache.org/en/theme-build
 The state value must be an array: `[<stringified chart>, ['default', <stringified theme>]]`.
 See `flexcharts.0.info.chart4` for a working example.
 
-Themes other than `default` and `dark` require explicit activation via `myChart.setTheme(<name>)` inside an event-driven function.
+Themes other than `default` and `dark` require explicit activation via `myChart.setTheme(<name>)` inside an event-driven function. `myChart.setTheme()` internally rebuilds the chart from scratch, which discards any chart data applied after the very first `setOption()` call — so a manual `setTheme()` call must always be followed immediately by `myChart.setOption(option);` in the same event handler to restore the chart:
+
+```js
+myChart.setTheme('myCustomTheme');
+myChart.setOption(option);
+```
+
+(`option` is the chart definition variable already available in that scope — see [Event-driven dynamic charts](#event-driven-dynamic-charts).)
 
 **Quick try:**
 ```
@@ -297,6 +304,10 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 ### 0.7.4 (2026-10-17)
 * (MyHomeMyData) Page background now follows the chart's background color (option or theme) to avoid a white frame around charts embedded in VIS/VIS2 iframes
 * (MyHomeMyData) SSE timers now use adapter.setInterval() so they are cleaned up when the web adapter stops
+* (MyHomeMyData) Fixed: myChart.setTheme() (dark mode, themes) could silently discard chart data set via a second setOption() call from an event handler — e.g. registerMap()+setOption() patterns like template8
+* (MyHomeMyData) Fixed: with `&darkmode=auto`, a system light/dark switch reverted the chart to the data from page load (discarding SSE updates); chart data and explicitly set colors (`backgroundColor`, `color`, `gradientColor`, `textStyle`) are now kept
+* (MyHomeMyData) Custom (non-"default"/"dark") theme activation via myChart.setTheme(<name>) in an event handler now requires an explicit myChart.setOption(option) call right afterward — previously this combination never applied the custom theme at all (silently overridden by the automatic dark mode handling); see Readme chapter "Themes"
+* (MyHomeMyData) Template8 now uses the natural registerMap() + setOption() event handler pattern instead of a workaround
 
 ### 0.7.3 (2026-08-24)
 * (MyHomeMyData) Added optional `requestTimeout` parameter for `source=script` widgets to configure the timeout waiting on the script's response (default 2000 ms, unchanged). Ref. issue #205
