@@ -44,6 +44,14 @@
             myChart.setTheme('default');
             break;
         }
+        syncPageBackground();
+      }
+
+      // Paint page with chart's background color (option or theme) to avoid a differently colored margin around the chart.
+      // Gradients and charts w/o background color keep the page transparent.
+      function syncPageBackground() {
+        const bg = myChart.getOption().backgroundColor;
+        document.documentElement.style.backgroundColor = typeof bg === 'string' ? bg : 'transparent';
       }
       darkModeMediaQuery.addEventListener('change', () => {
           updateDarkMode();
@@ -71,6 +79,7 @@
               .then(text => {
                 try {
                   myChart.setOption(new Function('return ' + text)());
+                  syncPageBackground();
                 } catch(e) {
                   console.error('flexcharts: failed to update chart option', e);
                 }
