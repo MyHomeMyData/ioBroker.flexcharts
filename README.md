@@ -296,6 +296,7 @@ If you enjoyed this project — or just feeling generous, consider buying me a b
 -->
 ### **WORK IN PROGRESS**
 * (MyHomeMyData) Page background now follows the chart's background color (option or theme) to avoid a white frame around charts embedded in VIS/VIS2 iframes
+* (MyHomeMyData) SSE timers now use adapter.setInterval() so they are cleaned up when the web adapter stops
 
 ### 0.7.3 (2026-08-24)
 * (MyHomeMyData) Added optional `requestTimeout` parameter for `source=script` widgets to configure the timeout waiting on the script's response (default 2000 ms, unchanged). Ref. issue #205
