@@ -1,6 +1,6 @@
 {
   "name": "iobroker.flexcharts",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Use all available features of eCharts within ioBroker",
   "author": {
     "name": "MyHomeMyData",
